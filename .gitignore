@@ -42,7 +42,8 @@ dist/
 
 # Jupyter
 .ipynb_checkpoints/
-
+alembic
+alembic.ini
 # Local databases
 *.db
 *.sqlite

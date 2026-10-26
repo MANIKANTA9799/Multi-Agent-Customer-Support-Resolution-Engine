@@ -14,15 +14,22 @@ router = APIRouter(
 )
 
 
-@router.post("",response_model=TicketResponse,status_code=status.HTTP_202_ACCEPTED)
-def create_ticket(ticket_in : TicketCreate ,service:TicketService=Depends(get_ticket_service)):
-     user_id = UUID("12345678-1234-5678-1234-567812345678")
-     result = service.create_ticket(
-        user_id=user_id,
+@router.post(
+    "",
+    response_model=TicketResponse,
+    status_code=status.HTTP_202_ACCEPTED
+)
+def create_ticket(
+    ticket_in: TicketCreate,
+    service: TicketService = Depends(get_ticket_service),
+    current_user: User = Depends(get_current_user)
+):
+    result = service.create_ticket(
+        user_id=current_user.id,
         ticket_in=ticket_in
     )
 
-     return result
+    return result
 
 
 @router.get("/{ticket_id}",response_model=TicketDetailResponse )

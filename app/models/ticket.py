@@ -4,7 +4,10 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import DateTime, String, text, func, ForeignKey, CheckConstraint
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column
-from app.models.mesaage import Message
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.mesaage import Message
 from app.models.base import Base
 
 class Ticket(Base):

@@ -1,4 +1,7 @@
 import time 
+from app.models.user import User
+from app.models.ticket import Ticket
+from app.models.mesaage import Message
 from app.core.db import SessionLocal
 from app.repos.ticket_repo import TicketRepository
 import signal
