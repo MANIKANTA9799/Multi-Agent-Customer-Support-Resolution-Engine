@@ -1,11 +1,11 @@
 from datetime import datetime
 from uuid import UUID
-
+from sqlalchemy.orm import relationship
 from sqlalchemy import DateTime, String, text, func, ForeignKey, Text
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
-
+from app.models.ticket import Ticket
 from app.models.base import Base
 
 class Message(Base):
@@ -14,6 +14,9 @@ class Message(Base):
     id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
     )
+    ticket: Mapped["Ticket"] = relationship(
+    back_populates="messages"
+)
     ticket_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("tickets.id", ondelete="CASCADE"), nullable=False
     )

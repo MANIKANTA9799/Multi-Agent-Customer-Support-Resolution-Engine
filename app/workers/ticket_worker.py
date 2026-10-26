@@ -25,9 +25,9 @@ class TicketWorker:
 
                 if ticket:
                     print(f"Claimed ticket {ticket.id}. Processing...")
-                    agent   = agent_orch.get_agent(ticket)
-                   # result = agent.process(ticket)
-                    #print(result)
+                    agent   = agent_orch.get_agent(ticket = ticket)
+                    result = agent.process(ticket,db)
+                    print(result)
                     ticket.status = 'resolved'
                     db.commit()
                 else:

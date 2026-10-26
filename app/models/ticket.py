@@ -1,10 +1,10 @@
 from datetime import datetime
 from uuid import UUID
-
+from sqlalchemy.orm import relationship
 from sqlalchemy import DateTime, String, text, func, ForeignKey, CheckConstraint
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column
-
+from app.models.mesaage import Message
 from app.models.base import Base
 
 class Ticket(Base):
@@ -13,7 +13,7 @@ class Ticket(Base):
     id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
     )
-    
+    messages: Mapped[list["Message"]] = relationship(back_populates="ticket", cascade="all, delete-orphan")
     # ADDED: ForeignKey to ensure this user actually exists
     user_id: Mapped[UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False

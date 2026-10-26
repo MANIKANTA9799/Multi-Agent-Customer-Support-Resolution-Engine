@@ -1,6 +1,6 @@
-from sqlalchemy import select 
+from sqlalchemy import select , orm 
 from app.models.ticket import Ticket 
-
+from uuid import UUID
 
 
 class TicketRepository:
@@ -20,4 +20,18 @@ class TicketRepository:
             return ticket
 
      return None
+    def get_ticket(self,ticket_id:UUID)->Ticket|None:
+        stmt = (
+            select(Ticket).options(
+                orm.joinedload(Ticket.messages)
+            ).where(
+                Ticket.id == ticket_id
+            )
+
+
+        )
+        result =  self.db.execute(stmt)
+
+        return result.unique().scalar_one_or_none()
+        
      
